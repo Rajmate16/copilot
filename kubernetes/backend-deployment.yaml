@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: 172.27.59.80:8082/docker-local/backend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9081
+      imagePullSecrets:
+      - name: jfrog
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  ports:
+    - port: 9081
+      targetPort: 9081
+  selector:
+    app: backend
+  clusterIP: None

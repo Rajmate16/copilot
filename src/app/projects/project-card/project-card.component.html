@@ -1,0 +1,14 @@
+<div class="row project-card">
+    <div class="row">
+        <div class="col-2">
+            <div class="project-card-id" (click)="onClickViewProjectTasks(project.projectId)">{{project.projectId}}</div>
+        </div>
+        <div class="col-9">
+            <div class="project-card-name" (click)="onClickViewProjectTasks(project.projectId)">{{project.projectName}}</div>
+        </div>
+        <div class="col-1 d-flex justify-content-end text-center align-items-center">
+            <!-- <fa-icon [icon]="editIcon" style="padding: 10px;" size="2x"></fa-icon> -->
+            <fa-icon [icon]="deleteIcon" style="padding: 10px;" size="2x" (click)="onClickDeleteProject(project.projectId)"></fa-icon>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+.date-control {
+    line-height: 30px;
+    padding: 5px;
+    margin: 15px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    /* border-color: ; */
+    font-size: 20px;
+}
+.modal-title {
+    font-size: 25px;
+}
+
+.btn {
+    /* background-color: rgb(201, 252, 99); */
+    /* border-color: black; */
+    font-size: 20px;
+}
+
+.export-dates {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

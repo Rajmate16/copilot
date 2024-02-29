@@ -1,0 +1,45 @@
+<div class="row project-title">DSR for WFH</div>
+<!-- <div class="row">
+    <app-project-list [projects]="projects"></app-project-list>
+</div> -->
+
+<div class="container">
+        <div class="date-picker-row">
+            <!-- <div class="col-2"><button class="btn btn-go btn-success" (click)="btnGoBackClicked()">Back</button></div> -->
+            <div class="col-2"><fa-icon class="back-icon" [icon]="backIcon" size="2x" [styles]="{'stroke': 'red', 'color': '#656362'}" (click)="btnGoBackClicked()"></fa-icon></div>
+            <div class="col-7 d-flex justify-content-center align-items-center">
+                <span class="date-picker-title">Select Date</span>
+                <span class="date-picker-control" [formGroup]="myGroup"><input formControlName="dateControl" #dateControl class="date-control" type="date" (change)="dateChanged()"></span>
+                <!-- <span class="btn-search"><button class="btn btn-go btn-success" (click)="()">Go</button></span> -->
+                <!-- <span><fa-icon class="back-icon" [icon]="searchIcon" size="2x"></fa-icon></span> -->
+            </div>
+            <div class="col-3 d-flex justify-content-end">
+                <button class="btn btn-export btn-success" style="margin-right: 10px;" (click)="openAddEmployeeModal()"><fa-icon class="back-icon" [icon]="plusIcon" size="1x"></fa-icon> Add Employee</button>
+                <button class="btn btn-export btn-primary" (click)="openExportTasksModal()" *ngIf="tasks.length !=0"><fa-icon class="back-icon" [icon]="downloadIcon" size="1x"></fa-icon> Export</button>
+            </div>
+        </div>
+</div>
+
+<div class="container spinner mt-5" *ngIf="loading">
+    <fa-icon [icon]="spinnerIcon" [spin]="true" [styles]="{'stroke': 'red', 'color': '#656362'}" size="2x"></fa-icon>
+</div>
+
+<div class="container" style="margin-top: 50px;" *ngIf="dayOfWeek === 0 || dayOfWeek === 6">
+    <div class="alert alert-success" role="alert">
+        This is a holiday
+    </div>
+</div>
+
+<div class="container" style="margin-top: 50px;" *ngIf="dayOfWeek !== 0 && dayOfWeek !== 6 && tasks.length === 0">
+    <div class="alert alert-success" role="alert">
+        No employee added yet
+    </div>
+</div>
+
+<div class="row" style="margin-top: 50px;" *ngIf="dayOfWeek !== 0 && dayOfWeek !==6 && tasks.length > 0">
+    <app-task-list [tasks]="tasks" [date]="dateControl.value" (refresh)="refresh()"></app-task-list>
+</div>
+
+<!-- <div class="refresh">
+    <button class="btn btn-export btn-success" (click)="refresh()" *ngIf="tasks.length !=0"><span style="margin-right: 15px;">Refresh</span><fa-icon [icon]="syncIcon" size="1x"></fa-icon></button>
+</div> -->

@@ -1,0 +1,104 @@
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  PROJECT_ID: nitin-project-gcp 
+  GAR_LOCATION: us-central1-docker.pkg.dev/nitin-project-gcp/telescope-frontend-terraform
+  SERVICE: telescope-frontend
+  REGION: us-central1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+
+    steps:
+    
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+
+    - name: Cache Node dependencies
+      id: cache-npm
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-build-npm-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-npm- 
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: build code
+      run: npm run build
+
+    - name: Code Coverage
+      continue-on-error: true
+      run: |
+        npm install -g @angular/cli@13
+        npm install --save-dev karma jasmine karma-coverage
+        ng test --code-coverage
+      
+    - name: SonarQube Scanner
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        npm install -g sonarqube-scanner
+        sonar-scanner \
+          -Dsonar.organization=nitinsh3101 \
+          -Dsonar.projectKey=nitinsh3101_telescope-frontend \
+          -Dsonar.sources=. \
+          -Dsonar.host.url=https://sonarcloud.io
+   
+    - name: Run Snyk to check for vulnerabilities
+      continue-on-error: true
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+    - name: Google Auth
+      id: auth
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GCLOUD_SERVICE_KEY }}'
+        
+    - name: Configure-Docker
+      run: gcloud auth configure-docker us-central1-docker.pkg.dev
+
+    - name: Build Image
+      run: docker build -t "${{ env.GAR_LOCATION }}/frontend:latest" ./
+#      run: docker build -t "${{ env.GAR_LOCATION }}/frontend:${{ github.run_id }}" ./
+
+    - name: Scan Docker Image
+      continue-on-error: true
+      uses: snyk/actions/docker@master
+      with:
+        image: ${{ env.GAR_LOCATION }}/frontend:latest
+        args: --file=Dockerfile --severity-threshold=low 
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+    - name: Push image to Artifacts
+      run: docker push "${{ env.GAR_LOCATION }}/frontend:latest" 
+    
+    - name: Deploy to Cloud Run
+      id: deploy
+      uses: 'google-github-actions/deploy-cloudrun@v1'
+      with:
+        service: ${{ env.SERVICE }} 
+        region: ${{ env.REGION }}
+        project_id: ${{ env.PROJECT_ID }}
+        image: ${{ env.GAR_LOCATION }}/frontend:latest
+#        image: ${{ env.GAR_LOCATION }}/frontend:${{ github.run_id }}

@@ -1,0 +1,11 @@
+<div class="container task-list">
+    <div class="listHeader row">
+        <div class="col-3" style="border-right: 0px;">Employee</div>
+        <div class="col-5" style="border-left: 1px solid black; border-right: 0px;">Task Description</div>
+        <div class="col-2" style="border-left: 1px solid black; border-right: 0px;">Status</div>
+        <div class="col-2" style="border-left: 1px solid black;">Actions</div>
+    </div>
+    <div *ngFor="let task of tasks; let i = index">
+        <app-task-card [task]="task" [date]="date" (updated)="refreshTaskList()"></app-task-card>
+    </div>
+</div>

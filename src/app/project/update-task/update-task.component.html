@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h4 class="modal-title">Update Task</h4>
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <fa-icon class="back-icon" [icon]="closeIcon" size="1x"></fa-icon>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form">
+        <div class="input-group mb-4">
+            <select class="form-control" style="font-size: 20px;" formControlName="status" #status placeholder="Status" (change)="updateTaskDetails($event)">
+                <option value="" selected disabled>Select Status</option>
+                <option value="WFO">Working (Office)</option>
+                <option value="WFH">Working (Home)</option>
+                <option value="PWFH">Working (PWFH)</option>
+                <option value="HDL+WFO">Working (Office) + Half Day Leave</option>
+                <option value="HDL+WFH">Working (Home) + Half Day Leave</option>
+                <option value="HDL+PWFH">Working (PWFH) + Half Day Leave</option>
+                <option value="FDL">Full Day Leave</option>
+            </select>
+        </div>
+        <div class="input-group mb-4">
+            <textarea class="form-control" placeholder="Task Description" formControlName="taskDesc" style="font-size: 20px;" rows="5" [readonly]="status.value==='FDL'"></textarea>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <div class="d-flex justify-content-center" *ngIf="loading">
+        Updating Task
+        <!-- <app-spinner></app-spinner> -->
+    </div>
+    <button *ngIf="!loading" type="button" class="btn btn-secondary"
+        (click)="activeModal.close(false)">Cancel</button>
+    <button *ngIf="!loading" type="button" class="btn btn-primary" (click)="updateTask()">Save</button>
+</div>

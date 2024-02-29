@@ -1,0 +1,49 @@
+<div class="row task-item" [ngStyle]="{'background-color':task.taskDesc === '' || task.taskDesc === null ? 'white' : '#d89b6a1f' }">
+    <div class="col-3 assignee" (click)="openUpdateEmployeeModal()">
+        <span style="padding: 10px;">{{task.employeeName}}</span>
+        <span style="padding: 10px;  color: #545252">({{task.employeeId}})</span>
+    </div>
+    <div class="col-5 task-desc" [innerHTML]="task.taskDesc | multiline"></div>
+    <div class="col-2 task-status" style="color: green;" *ngIf="task.status==='WORKING'">
+        Working
+    </div>
+    <div class="col-2 task-status" style="color: green;" *ngIf="task.status==='WFO'">
+        Working (Office)
+    </div>
+    <div class="col-2 task-status" style="color: green;" *ngIf="task.status==='WFH'">
+        Working (Home)
+    </div>
+    <div class="col-2 task-status" style="color: green;" *ngIf="task.status==='PWFH'">
+        Working (PWFH)
+    </div>
+    <div class="col-2 task-status" style="color: rgb(255, 128, 0);" *ngIf="task.status==='HDL'">
+        Half Day Leave
+    </div>
+    <div class="col-2 task-status" style="color: rgb(255, 128, 0);" *ngIf="task.status==='HDL+WFO'">
+        Working (Office)<br>
+        +<br>
+        Half Day Leave
+    </div>
+    <div class="col-2 task-status" style="color: rgb(255, 128, 0);" *ngIf="task.status==='HDL+WFH'">
+        Working (Home)<br>
+        +<br>
+        Half Day Leave
+    </div>
+    <div class="col-2 task-status" style="color: rgb(255, 128, 0);" *ngIf="task.status==='HDL+PWFH'">
+        Working (PWFH)<br>
+        +<br>
+        Half Day Leave
+    </div>
+    <div class="col-2 task-status" style="color: red;" *ngIf="task.status==='FDL'">
+        Full Day Leave
+    </div>
+    <div class="col-2 task-status" *ngIf="task.status==='' || task.status=== null">
+        
+    </div>
+    <div class="col-2 action">
+        <!-- <button class="btn btn-edit btn-success" (click)="openUpdateTaskModal(task.taskId, task.taskDesc)">Edit</button> -->
+        <fa-icon *ngIf="showEditCopyBtn" class="edit-icon" [icon]="faEdit" [styles]="{'stroke': 'red', 'color': '#656362'}" size="2x" (click)="openUpdateTaskModal(task.taskId, task.taskDesc, task.status)" placement="top" ngbTooltip="Edit"></fa-icon>
+        <hr *ngIf="showEditCopyBtn" class="saperator" size="60">
+        <fa-icon *ngIf="showEditCopyBtn" class="copy-icon" [icon]="faCopy" [styles]="{'stroke': 'red', 'color': '#656362'}" size="2x" placement="top" ngbTooltip="Copy previous task" (click)="copyPreviousTask()"></fa-icon>
+    </div>
+</div>

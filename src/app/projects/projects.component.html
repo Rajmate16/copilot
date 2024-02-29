@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row project-title">PROJECTS</div>
+</div>
+<div class="container add-button-placeholder">
+    <button class="btn btn-success" (click)="openAddProjectModal()"><fa-icon [icon]="plusIcon" size="1x"></fa-icon> Add Project</button>
+</div>
+<div class="container spinner" *ngIf="loading">
+    <fa-icon [icon]="spinnerIcon" [spin]="true" [styles]="{'stroke': 'red', 'color': '#656362'}" size="2x"></fa-icon>
+</div>
+
+<div class="container" style="margin-top: 50px;" *ngIf="projects.length === 0 && !loading">
+    <div class="alert alert-success" role="alert">
+        No project added yet
+    </div>
+</div>
+<!-- <div class="container justify-content-center">
+    <app-search-project-bar></app-search-project-bar>
+</div>             -->
+<div class="row">
+    <app-project-list [projects]="projects" (deleteProject)="openDeleteConfirmationDialog($event)"></app-project-list>
+</div>

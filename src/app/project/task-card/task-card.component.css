@@ -1,0 +1,67 @@
+.task-item {
+    margin-bottom: 20px;
+    min-height: 120px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.assignee, .task-desc, .action, .btn, .task-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.assignee {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.task-desc {
+    padding: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    line-height: 35px;;
+    border-left: 1px solid black;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.task-status {
+    padding: 20px;
+    line-height: 35px;
+    border-left: 1px solid black;
+    text-align: center;
+}
+
+.action {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    border-left: 1px solid black;
+}
+
+.btn-edit {
+    border: 1px solid black;
+    width: 70%;
+    height: 30%;
+    /* color: white; */
+    /* background-color: #60c78b; */
+    /* color: white; */
+}
+
+.copy-icon {
+    margin: 20px;
+    cursor: pointer;
+}
+
+.edit-icon {
+    margin: 20px;
+    cursor: pointer;
+}
+
+.saperator {
+    border: 1px solid black;
+}

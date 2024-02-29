@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        <span *ngIf="mode==='add'">Add Employee</span>
+        <span *ngIf="mode==='update'">Update Employee</span>
+    </h4>
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <fa-icon class="back-icon" [icon]="closeIcon" size="1x"></fa-icon>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form">
+        <div class="form-group mb-3">
+            <input type="text" class="form-control" placeholder="Employee ID" formControlName="employeeId"
+                [ngClass]="{ 'is-invalid': submitted && form.controls.employeeId.errors }">
+            <div *ngIf="submitted && f.employeeId.errors" class="invalid-feedback">
+                <div *ngIf="f.employeeId.errors.required">Required</div>
+                <div *ngIf="f.employeeId.errors.pattern">Only numeric value is allowed</div>
+                <div *ngIf="f.employeeId.errors.maxlength">Maximum 6 digits are allowed</div>
+            </div>
+        </div>
+        <div class="form-group mb-3">
+            <input type="text" class="form-control" placeholder="Employee Name" formControlName="name"
+                [ngClass]="{ 'is-invalid': submitted && form.controls.name.errors }">
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Required</div>
+                <div *ngIf="f.name.errors.maxlength">Maximum 100 characters are allowed</div>
+            </div>
+        </div>
+        <div class="form-group mb-3">
+            <select class="form-control" formControlName="statusPlanned" #statusPlanned
+            [ngClass]="{ 'is-invalid': submitted && form.controls.statusPlanned.errors }">
+                <option value="" selected disabled>Select Planned Status</option>
+                <option value="WFH">Working From Home</option>
+                <option value="WFO">Work From Office</option>
+            </select>
+            <div *ngIf="submitted && f.statusPlanned.errors" class="invalid-feedback">
+                <div *ngIf="f.statusPlanned.errors.required">Required</div>
+            </div>
+        </div>
+        <div class="form-group mb-3">
+            <select class="form-control" formControlName="location" #Location
+            [ngClass]="{ 'is-invalid': submitted && form.controls.location.errors }">
+                <option value="" selected disabled>Select Location</option>
+                <option value="Pune">Pune</option>
+            </select>
+            <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                <div *ngIf="f.location.errors.required">Required</div>
+            </div>
+        </div>
+        <div *ngIf="submitted && !loading && employeeExists && mode==='add'" class="alert alert-danger mt-3"
+            role="alert">
+            Employee with same id already exist
+        </div>
+        <div *ngIf="submitted && !loading && !employeeExists && mode==='update'" class="alert alert-danger mt-3"
+            role="alert">
+            Employee with specified id does not exist
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <div class="d-flex justify-content-center" *ngIf="loading">
+        <fa-icon [icon]="spinnerIcon" [spin]="true" [styles]="{'stroke': 'red', 'color': '#656362'}" size="2x"></fa-icon>
+    </div>
+    <button *ngIf="!loading" type="button" class="btn btn-secondary"
+        (click)="activeModal.close(false)">Cancel</button>
+    <button *ngIf="!loading" type="button" class="btn btn-primary" (click)="addEmployee()">
+        <span *ngIf="mode==='add'">Add</span>
+        <span *ngIf="mode==='update'">Update</span>
+    </button>
+    <button *ngIf="!loading && mode==='update'" type="button" class="btn btn-danger btn-delete" (click)="openDeleteConfirmationDialog()">
+        Delete
+    </button>
+</div>

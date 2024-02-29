@@ -1,0 +1,48 @@
+<div class="modal-header">
+    <h4 class="modal-title">Add Project</h4>
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <fa-icon class="back-icon" [icon]="closeIcon" size="1x"></fa-icon>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form">
+        <div class="form-group mb-3">
+            <input type="text" class="form-control" placeholder="Project ID" formControlName="projectId"
+                [ngClass]="{ 'is-invalid': submitted && form.controls.projectId.errors }">
+            <div *ngIf="submitted && f.projectId.errors" class="invalid-feedback">
+                <div *ngIf="f.projectId.errors.required">Required</div>
+                <div *ngIf="f.projectId.errors.pattern">Only numeric value is allowed</div>
+                <div *ngIf="f.projectId.errors.maxlength">Maximum 10 digits are allowed</div>
+            </div>
+        </div>
+        <div class="form-group mb-3">
+            <input type="text" class="form-control" placeholder="Project Name" formControlName="projectName"
+                [ngClass]="{ 'is-invalid': submitted && form.controls.projectName.errors }">
+            <div *ngIf="submitted && f.projectName.errors" class="invalid-feedback">
+                <div *ngIf="f.projectName.errors.required">Required</div>
+                <div *ngIf="f.projectName.errors.maxlength">Maximum 150 characters are allowed</div>
+            </div>
+        </div>
+        <div class="form-group mb-3">
+            <input type="text" class="form-control" placeholder="Manager Name" formControlName="manager"
+                [ngClass]="{ 'is-invalid': submitted && form.controls.manager.errors }">
+            <div *ngIf="submitted && f.manager.errors" class="invalid-feedback">
+                <div *ngIf="f.manager.errors.required">Required</div>
+                <div *ngIf="f.manager.errors.maxlength">Maximum 100 characters are allowed</div>
+            </div>
+        </div>
+        <div *ngIf="submitted && !loading && projectExists && mode==='add'" class="alert alert-danger mt-3"
+            role="alert">
+            Project with same id already exist!
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <div class="d-flex justify-content-center" *ngIf="loading">
+        <fa-icon [icon]="spinnerIcon" [spin]="true" [styles]="{'stroke': 'red', 'color': '#656362'}" size="2x"></fa-icon>
+    </div>
+    <button *ngIf="!loading" type="button" class="btn btn-secondary"
+        (click)="activeModal.close(false)">Cancel</button>
+    <button *ngIf="!loading" type="button" class="btn btn-primary" (click)="addProject()">Add</button>
+</div>

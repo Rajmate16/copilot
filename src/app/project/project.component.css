@@ -1,0 +1,64 @@
+.project-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.refresh {
+    position: fixed;
+    bottom: 50%;
+    right: 80px;
+    cursor: pointer;
+}
+
+.date-picker-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+
+.date-picker-title {
+    margin-right: 15px;
+}
+
+.date-picker-control {
+    margin-right: 15px;
+}
+
+.btn-go, .btn-export, .btn-go-back {
+    /* background-color: #064420; */
+    color: white;
+    border-color: black;
+    font-size: 18px;
+}
+
+.date-control {
+    line-height: 30px;
+    padding: 5px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    /* border-color: ; */
+}
+
+mat-form-field {
+    margin-right: 12px;
+}
+
+.back-icon {
+    cursor: pointer;
+}
+
+.spinner {
+    display: flex;
+    justify-content: center;
+}
+
+.alert {
+    text-align: center;
+    font-size: 22px;
+}

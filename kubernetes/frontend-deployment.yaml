@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: 172.27.59.80:8082/docker-local/frontend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 4200
+      imagePullSecrets:
+      - name: jfrog
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: frontend
+  name: frontend
+spec:
+  selector:
+    app: frontend
+  ports:
+  - nodePort: 30001
+    port: 4200
+    targetPort: 4200
+  type: NodePort

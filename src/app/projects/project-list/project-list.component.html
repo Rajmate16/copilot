@@ -1,0 +1,6 @@
+<div class="container project-list">
+    <div *ngFor="let project of projects; let i = index">
+        <!-- {{project | json}} -->
+        <app-project-card [project]="project" (viewProjectTasks)="viewProjectTasks($event)" (deleteProject)="onClickDeleteProject($event)"></app-project-card>
+    </div>
+</div>
